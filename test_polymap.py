@@ -80,3 +80,37 @@ def test_update():
     poly1.update(poly2)
     assert "marigold" in poly1.keys()
     assert "plant" in poly1.groups()
+
+
+def test_equals():
+    poly1 = PolyMap()
+    poly1["cat", "animal"] = "tom"
+    poly2 = PolyMap()
+    poly2["cat", "animal"] = "tom"
+    assert poly1 == poly2
+
+
+def test_copy_equals():
+    poly1 = PolyMap()
+    poly1["cat", "animal"] = "tom"
+    poly2 = poly1.copy()
+    assert set(poly1.groups()) == set(poly2.groups())
+    assert poly1 == poly2
+
+
+
+def test_ungroup_all_groups():
+    poly = PolyMap()
+    poly["cat", "animal"] = "tom"
+    poly["dog", "animal"] = "odie"
+    poly["dog", "show"] = "garfield"
+    poly.ungroup("dog")
+    assert set(poly.groups("dog")) == set()
+    assert set(poly.groups()) == {"animal"}
+
+
+def test_group_key():
+    poly = PolyMap()
+    poly["cat"] = "tom"
+    poly.group("cat", "animals")
+    assert set(poly.groups("cat")) == {"animals"}
